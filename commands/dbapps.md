@@ -17,7 +17,9 @@ Create a React application in the `frontend/` folder with:
 1. **Dependencies**: Install React, TypeScript, MUI (@mui/material, @mui/icons-material, @emotion/react, @emotion/styled), and Framer Motion
 
 2. **App Structure**:
-   - Top AppBar with title and menu button
+   - Top AppBar with title, menu button, and API Docs link
+     - Title should use flexGrow: 1 to push docs link to the right
+     - API Docs button with Api icon that links to `/docs` (opens in new tab)
    - Retractable Drawer navigation on the left side that:
      - Starts in expanded mode showing text labels
      - Can be minimized to icon-only mode
