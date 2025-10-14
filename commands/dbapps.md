@@ -130,6 +130,63 @@ Create `app.yaml` with:
 Include instructions for:
 - Local development (frontend on port 5173, backend on port 8000)
 - Building for production using `python build.py`
-- Deploying to Databricks using `python deploy.py` (handles CLI setup automatically)
+- Deploying to Databricks using `python deploy_to_databricks.py` (handles CLI setup automatically)
 
-Ensure all files are properly configured with TypeScript types, proper imports, and production-ready code. Include a comprehensive README.md with setup and deployment instructions.
+## Claude Code Instructions
+Create a `.claude/instructions.md` file with the following content to guide Claude Code users:
+
+```markdown
+# Instructions for Claude Code
+
+## Deploying This Application
+
+**IMPORTANT**: This project includes a custom deployment script specifically designed for Databricks Apps deployment.
+
+When the user asks to "deploy" or "deploy the app" or "deploy to Databricks", you MUST use the existing `deploy_to_databricks.py` script that is included in this project.
+
+### How to Deploy
+
+Run the deployment script:
+
+\```bash
+python deploy_to_databricks.py
+\```
+
+Or for a hard redeploy (delete and redeploy):
+
+\```bash
+python deploy_to_databricks.py --hard-redeploy
+\```
+
+### DO NOT
+
+- Do NOT try to deploy using other methods
+- Do NOT write new deployment scripts
+- Do NOT use generic deployment approaches
+
+### What the Script Does
+
+The `deploy_to_databricks.py` script:
+1. Checks Databricks CLI installation and configuration
+2. Auto-detects workspace URL and user email
+3. Builds the React frontend
+4. Packages the backend (excluding venv, tests, etc.)
+5. Imports to Databricks workspace
+6. Deploys the app
+7. Shows the app URL
+
+### Prerequisites
+
+The user needs:
+- Databricks CLI installed: `pip install databricks-cli`
+- Databricks CLI configured: `databricks configure --token`
+
+If the CLI is not configured, the script will guide the user through the setup process.
+```
+
+## README
+Ensure all files are properly configured with TypeScript types, proper imports, and production-ready code. Include a comprehensive README.md with:
+- Quick deploy command at the top: `> **🚀 Quick Deploy**: To deploy this app to Databricks, run \`python deploy_to_databricks.py\``
+- Setup and deployment instructions
+- API documentation
+- Troubleshooting guide
