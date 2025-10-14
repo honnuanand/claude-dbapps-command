@@ -8,6 +8,8 @@ Cross-platform compatible (Windows, macOS, Linux)
 import os
 import sys
 import shutil
+import subprocess
+import argparse
 from pathlib import Path
 
 # ANSI color codes
@@ -23,14 +25,56 @@ def print_colored(text, color):
     else:
         print(text)
 
-def main():
-    print_colored("=" * 45, BLUE)
-    print_colored("Installing /dbapps command for Claude Code", BLUE)
-    print_colored("=" * 45, BLUE)
+def update_from_repo(script_dir):
+    """Pull latest changes from git repository"""
+    print_colored("🔄 Updating from GitHub repository...", BLUE)
     print()
 
-    # Get the directory where this script is located
-    script_dir = Path(__file__).parent
+    try:
+        # Check if this is a git repository
+        result = subprocess.run(
+            ["git", "rev-parse", "--git-dir"],
+            cwd=script_dir,
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if result.returncode != 0:
+            print_colored("⚠ Warning: Not a git repository. Skipping update.", YELLOW)
+            print_colored("  To enable updates, clone from GitHub:", YELLOW)
+            print("  git clone https://github.com/honnuanand/claude-dbapps-command.git")
+            print()
+            return False
+
+        # Pull latest changes
+        print_colored("Pulling latest changes...", BLUE)
+        result = subprocess.run(
+            ["git", "pull"],
+            cwd=script_dir,
+            capture_output=True,
+            text=True,
+            check=False
+        )
+
+        if result.returncode == 0:
+            print_colored("✓ Successfully updated from GitHub", GREEN)
+            if "Already up to date" in result.stdout:
+                print_colored("  Repository is already up to date", BLUE)
+            print()
+            return True
+        else:
+            print_colored(f"❌ Failed to update: {result.stderr}", YELLOW)
+            return False
+
+    except FileNotFoundError:
+        print_colored("⚠ Warning: git command not found", YELLOW)
+        print_colored("  Install git to enable automatic updates", YELLOW)
+        print()
+        return False
+
+def install_files(script_dir):
+    """Install command files to ~/.claude/commands/"""
     commands_src = script_dir / "commands"
     commands_dst = Path.home() / ".claude" / "commands"
 
@@ -80,6 +124,42 @@ def main():
     print()
 
     print_colored(f"✓ Successfully installed {success_count} file(s)", GREEN)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Install /dbapps command for Claude Code",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python install.py           # Install the command
+  python install.py --update  # Update from GitHub, then install
+        """
+    )
+    parser.add_argument(
+        "--update",
+        action="store_true",
+        help="Pull latest changes from GitHub before installing"
+    )
+
+    args = parser.parse_args()
+
+    print_colored("=" * 45, BLUE)
+    if args.update:
+        print_colored("Updating and Installing /dbapps command", BLUE)
+    else:
+        print_colored("Installing /dbapps command for Claude Code", BLUE)
+    print_colored("=" * 45, BLUE)
+    print()
+
+    # Get the directory where this script is located
+    script_dir = Path(__file__).parent
+
+    # Update from repo if requested
+    if args.update:
+        update_from_repo(script_dir)
+
+    # Install files
+    install_files(script_dir)
 
 if __name__ == "__main__":
     try:

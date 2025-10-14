@@ -211,8 +211,21 @@ rm ~/.claude/commands/deploy_to_databricks_template.py
 
 ## Updating
 
-To update to the latest version:
+To update to the latest version, you have two options:
 
+**Option 1: Automatic update (recommended)**
+```bash
+cd claude-dbapps-command
+./install.sh --update      # macOS/Linux
+# or
+python install.py --update  # Any OS
+```
+
+The `--update` flag will:
+1. Pull the latest changes from GitHub
+2. Install the updated command files
+
+**Option 2: Manual update**
 ```bash
 cd claude-dbapps-command
 git pull

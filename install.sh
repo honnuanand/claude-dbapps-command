@@ -12,13 +12,59 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}=====================================${NC}"
-echo -e "${BLUE}Installing /dbapps command for Claude Code${NC}"
-echo -e "${BLUE}=====================================${NC}\n"
+# Parse arguments
+UPDATE_MODE=false
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --update|-u) UPDATE_MODE=true ;;
+        --help|-h)
+            echo "Usage: $0 [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  --update, -u    Pull latest changes from GitHub before installing"
+            echo "  --help, -h      Show this help message"
+            echo ""
+            echo "Examples:"
+            echo "  $0              # Install the command"
+            echo "  $0 --update     # Update from GitHub, then install"
+            exit 0
+            ;;
+        *) echo "Unknown parameter: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 # Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 COMMANDS_DIR="$HOME/.claude/commands"
+
+echo -e "${BLUE}=====================================${NC}"
+if [ "$UPDATE_MODE" = true ]; then
+    echo -e "${BLUE}Updating and Installing /dbapps command${NC}"
+else
+    echo -e "${BLUE}Installing /dbapps command for Claude Code${NC}"
+fi
+echo -e "${BLUE}=====================================${NC}\n"
+
+# Update from repo if requested
+if [ "$UPDATE_MODE" = true ]; then
+    echo -e "${BLUE}🔄 Updating from GitHub repository...${NC}\n"
+
+    # Check if this is a git repository
+    if git -C "$SCRIPT_DIR" rev-parse --git-dir > /dev/null 2>&1; then
+        echo -e "${BLUE}Pulling latest changes...${NC}"
+        cd "$SCRIPT_DIR"
+        if git pull; then
+            echo -e "${GREEN}✓ Successfully updated from GitHub${NC}\n"
+        else
+            echo -e "${YELLOW}❌ Failed to update from GitHub${NC}\n"
+        fi
+    else
+        echo -e "${YELLOW}⚠ Warning: Not a git repository. Skipping update.${NC}"
+        echo -e "${YELLOW}  To enable updates, clone from GitHub:${NC}"
+        echo -e "  git clone https://github.com/honnuanand/claude-dbapps-command.git\n"
+    fi
+fi
 
 # Create .claude/commands directory if it doesn't exist
 if [ ! -d "$COMMANDS_DIR" ]; then
