@@ -360,7 +360,15 @@ class DatabricksDeployer:
 
         # Overwrite with minimal app.yaml for Databricks Apps
         with open(app_yaml_dst, 'w') as f:
-            f.write('command: ["uvicorn", "app:app"]\n')
+            f.write('command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]\n')
+            f.write('\n')
+            f.write('env:\n')
+            f.write('  - name: ENV\n')
+            f.write('    value: "production"\n')
+            f.write('  - name: PORT\n')
+            f.write('    value: "8000"\n')
+            f.write('  - name: DEBUG\n')
+            f.write('    value: "False"\n')
 
         print("✅ Backend packaged successfully")
         return True

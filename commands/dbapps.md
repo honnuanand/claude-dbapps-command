@@ -118,10 +118,13 @@ python deploy_to_databricks.py --app-name my-app --app-folder /Workspace/Users/u
 
 ## Databricks Configuration
 Create `app.yaml` with:
-- App name and description
-- Command to run the FastAPI server
-- Port configuration (default: 8000)
-- Resource requirements
+- Command to run the FastAPI server (uvicorn app:app --host 0.0.0.0 --port 8000)
+- Environment variables section with:
+  - ENV=production
+  - PORT=8000
+  - DEBUG=False
+- Resource requirements (cpu: "1", memory: "2Gi")
+- App description
 
 ## Development Setup
 Include instructions for:
