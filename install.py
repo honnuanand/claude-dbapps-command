@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Installation script for /dbapps Claude Code slash command
+Installation script for /dbapps and /dbtestrunner Claude Code slash commands
 This script copies the command files to ~/.claude/commands/
 Cross-platform compatible (Windows, macOS, Linux)
 """
@@ -18,12 +18,12 @@ BLUE = '\033[0;34m'
 YELLOW = '\033[1;33m'
 NC = '\033[0m'  # No Color
 
-def print_colored(text, color):
+def print_colored(text, color, end="\n"):
     """Print colored text if terminal supports it"""
     if sys.platform != 'win32' or os.getenv('TERM'):
-        print(f"{color}{text}{NC}")
+        print(f"{color}{text}{NC}", end=end)
     else:
-        print(text)
+        print(text, end=end)
 
 def update_from_repo(script_dir):
     """Pull latest changes from git repository"""
@@ -88,6 +88,7 @@ def install_files(script_dir):
 
     files_to_copy = [
         "dbapps.md",
+        "dbtestrunner.md",
         "deploy_to_databricks_template.py"
     ]
 
@@ -109,13 +110,22 @@ def install_files(script_dir):
     print_colored("=" * 45, GREEN)
     print()
 
-    print_colored("The /dbapps command is now available in Claude Code!", BLUE)
+    print_colored("The following commands are now available in Claude Code!", BLUE)
+    print()
+
+    print_colored("Commands:", BLUE)
+    print_colored("  /dbapps       ", GREEN, end="")
+    print("- Create a React + FastAPI app with Databricks deployment")
+    print_colored("  /dbtestrunner ", GREEN, end="")
+    print("- Add an in-app Test Runner framework to a Databricks App")
     print()
 
     print_colored("Usage:", BLUE)
     print("  1. Open Claude Code in any directory")
-    print_colored("  2. Type: /dbapps", GREEN)
-    print("  3. Claude will create a React + FastAPI app with Databricks deployment")
+    print_colored("  2. Type: /dbapps", GREEN, end="")
+    print(" to create a new Databricks App")
+    print_colored("  3. Type: /dbtestrunner", GREEN, end="")
+    print(" to add an in-app test runner")
     print()
 
     print_colored("Files installed to:", BLUE)
@@ -127,11 +137,11 @@ def install_files(script_dir):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Install /dbapps command for Claude Code",
+        description="Install /dbapps and /dbtestrunner commands for Claude Code",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python install.py           # Install the command
+  python install.py           # Install the commands
   python install.py --update  # Update from GitHub, then install
         """
     )
@@ -143,12 +153,12 @@ Examples:
 
     args = parser.parse_args()
 
-    print_colored("=" * 45, BLUE)
+    print_colored("=" * 50, BLUE)
     if args.update:
-        print_colored("Updating and Installing /dbapps command", BLUE)
+        print_colored("Updating and Installing Databricks App commands", BLUE)
     else:
-        print_colored("Installing /dbapps command for Claude Code", BLUE)
-    print_colored("=" * 45, BLUE)
+        print_colored("Installing Databricks App commands for Claude Code", BLUE)
+    print_colored("=" * 50, BLUE)
     print()
 
     # Get the directory where this script is located

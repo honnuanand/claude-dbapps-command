@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Installation script for /dbapps Claude Code slash command
+# Installation script for /dbapps and /dbtestrunner Claude Code slash commands
 # This script copies the command files to ~/.claude/commands/
 #
 
@@ -38,13 +38,13 @@ done
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 COMMANDS_DIR="$HOME/.claude/commands"
 
-echo -e "${BLUE}=====================================${NC}"
+echo -e "${BLUE}=============================================${NC}"
 if [ "$UPDATE_MODE" = true ]; then
-    echo -e "${BLUE}Updating and Installing /dbapps command${NC}"
+    echo -e "${BLUE}Updating and Installing Databricks App commands${NC}"
 else
-    echo -e "${BLUE}Installing /dbapps command for Claude Code${NC}"
+    echo -e "${BLUE}Installing Databricks App commands for Claude Code${NC}"
 fi
-echo -e "${BLUE}=====================================${NC}\n"
+echo -e "${BLUE}=============================================${NC}\n"
 
 # Update from repo if requested
 if [ "$UPDATE_MODE" = true ]; then
@@ -89,17 +89,29 @@ else
     echo -e "${YELLOW}⚠ Warning: deploy_to_databricks_template.py not found${NC}"
 fi
 
-echo -e "\n${GREEN}=====================================${NC}"
-echo -e "${GREEN}Installation complete!${NC}"
-echo -e "${GREEN}=====================================${NC}\n"
+if [ -f "$SCRIPT_DIR/commands/dbtestrunner.md" ]; then
+    cp "$SCRIPT_DIR/commands/dbtestrunner.md" "$COMMANDS_DIR/"
+    echo -e "${GREEN}✓ Installed dbtestrunner.md${NC}"
+else
+    echo -e "${YELLOW}⚠ Warning: dbtestrunner.md not found${NC}"
+fi
 
-echo -e "${BLUE}The /dbapps command is now available in Claude Code!${NC}\n"
+echo -e "\n${GREEN}=============================================${NC}"
+echo -e "${GREEN}Installation complete!${NC}"
+echo -e "${GREEN}=============================================${NC}\n"
+
+echo -e "${BLUE}The following commands are now available in Claude Code:${NC}\n"
+
+echo -e "${BLUE}Commands:${NC}"
+echo -e "  ${GREEN}/dbapps${NC}       - Create a React + FastAPI app with Databricks deployment"
+echo -e "  ${GREEN}/dbtestrunner${NC} - Add an in-app Test Runner framework to a Databricks App\n"
 
 echo -e "${BLUE}Usage:${NC}"
 echo -e "  1. Open Claude Code in any directory"
-echo -e "  2. Type: ${GREEN}/dbapps${NC}"
-echo -e "  3. Claude will create a React + FastAPI app with Databricks deployment\n"
+echo -e "  2. Type: ${GREEN}/dbapps${NC} to create a new Databricks App"
+echo -e "  3. Type: ${GREEN}/dbtestrunner${NC} to add an in-app test runner\n"
 
 echo -e "${BLUE}Files installed to:${NC}"
 echo -e "  $COMMANDS_DIR/dbapps.md"
+echo -e "  $COMMANDS_DIR/dbtestrunner.md"
 echo -e "  $COMMANDS_DIR/deploy_to_databricks_template.py\n"
