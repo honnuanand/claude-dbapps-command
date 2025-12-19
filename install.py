@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Installation script for /dbapps and /dbtestrunner Claude Code slash commands
+Installation script for Databricks Claude Code slash commands:
+  - /dbapps - Create React + FastAPI apps with Databricks deployment
+  - /dbtestrunner - Add in-app test runner framework
+  - /dbaiassistant - Add Genie-powered AI assistant
+  - /dbgeniespaces - Analyze schemas and create Genie spaces
+
 This script copies the command files to ~/.claude/commands/
 Cross-platform compatible (Windows, macOS, Linux)
 """
@@ -89,6 +94,8 @@ def install_files(script_dir):
     files_to_copy = [
         "dbapps.md",
         "dbtestrunner.md",
+        "dbaiassistant.md",
+        "dbgeniespaces.md",
         "deploy_to_databricks_template.py"
     ]
 
@@ -114,10 +121,14 @@ def install_files(script_dir):
     print()
 
     print_colored("Commands:", BLUE)
-    print_colored("  /dbapps       ", GREEN, end="")
+    print_colored("  /dbapps        ", GREEN, end="")
     print("- Create a React + FastAPI app with Databricks deployment")
-    print_colored("  /dbtestrunner ", GREEN, end="")
+    print_colored("  /dbtestrunner  ", GREEN, end="")
     print("- Add an in-app Test Runner framework to a Databricks App")
+    print_colored("  /dbaiassistant ", GREEN, end="")
+    print("- Add a Genie-powered AI assistant to your Databricks App")
+    print_colored("  /dbgeniespaces ", GREEN, end="")
+    print("- Analyze schemas and create comprehensive Genie spaces")
     print()
 
     print_colored("Usage:", BLUE)
@@ -126,6 +137,10 @@ def install_files(script_dir):
     print(" to create a new Databricks App")
     print_colored("  3. Type: /dbtestrunner", GREEN, end="")
     print(" to add an in-app test runner")
+    print_colored("  4. Type: /dbaiassistant", GREEN, end="")
+    print(" to add a Genie-powered AI assistant")
+    print_colored("  5. Type: /dbgeniespaces", GREEN, end="")
+    print(" to analyze and create Genie spaces")
     print()
 
     print_colored("Files installed to:", BLUE)

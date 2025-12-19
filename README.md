@@ -1,16 +1,19 @@
-# Claude Code `/dbapps` Command
+# Databricks Claude Code Commands
 
-A powerful Claude Code slash command that generates production-ready React + FastAPI applications with automated Databricks deployment.
+A collection of powerful Claude Code slash commands for building and deploying Databricks applications.
 
 ## What is this?
 
-This repository contains a custom slash command for [Claude Code](https://claude.ai/claude-code) that:
+This repository contains custom slash commands for [Claude Code](https://claude.ai/claude-code) that help you:
 
-- Creates a full-stack React + FastAPI application
-- Includes TypeScript, Material-UI, and Framer Motion
-- Provides automated build and deployment scripts
-- Deploys to Databricks Apps with one command
-- Auto-detects workspace info and user credentials
+| Command | Description |
+|---------|-------------|
+| `/dbapps` | Create a full-stack React + FastAPI application with Databricks deployment |
+| `/dbtestrunner` | Add an in-app test runner framework to your Databricks App |
+| `/dbaiassistant` | Add a Genie-powered AI assistant with natural language SQL queries |
+| `/dbgeniespaces` | Analyze Unity Catalog schemas and create comprehensive Genie spaces |
+
+All commands work together - you can use `/dbapps` to create an app, `/dbtestrunner` to add tests, and `/dbaiassistant` + `/dbgeniespaces` to add AI-powered data exploration.
 
 ## Features
 
@@ -200,12 +203,91 @@ The generated `deploy_to_databricks.py` script includes:
 - Provides helpful error messages
 - Cleans up temporary files automatically
 
+---
+
+## `/dbaiassistant` Command
+
+Add a Genie-powered AI assistant to your Databricks App. This command provides comprehensive instructions for building a natural language interface to your data.
+
+### What it creates
+
+- **Frontend Components**: `GenieChatCore.tsx`, `FloatingAIAssistant.tsx`, `AINotificationBadge.tsx`
+- **Backend Routers**: `genie.py` for Genie API integration
+- **Async Processing**: Queue-based system for long-running AI queries
+- **Auto-preload**: Background insight generation for instant responses
+
+### Features
+
+- Natural language SQL queries via Databricks Genie
+- Async request processing with notification badges
+- Floating chat assistant with expand/collapse
+- Performance card insights with AI analysis
+- Visualization-ready responses (line charts, bar charts, tables)
+
+### Usage
+
+1. First create your app with `/dbapps`
+2. Create Genie spaces with `/dbgeniespaces`
+3. Run `/dbaiassistant` to add the AI assistant components
+4. Configure your Genie space ID in the app
+
+---
+
+## `/dbgeniespaces` Command
+
+Analyze Unity Catalog schemas and create comprehensive Databricks Genie spaces. This command automates the entire Genie space creation workflow.
+
+### Quick Start
+
+Point Claude at a schema and let it analyze and create spaces:
+
+```
+/dbgeniespaces
+
+Analyze catalog.my_schema and create appropriate Genie spaces
+```
+
+### Features
+
+- **Schema Analysis**: Automatically discovers tables and columns
+- **Domain Grouping**: Groups related tables (sales_, hr_, finance_, etc.)
+- **Visualization Questions**: Generates questions optimized for charts:
+  - Line charts (date columns + metrics)
+  - Bar charts (category columns + aggregates)
+  - Pie charts (percentage breakdowns)
+  - KPI displays (single-value metrics)
+- **Multi-Space Creation**: Creates separate spaces per domain
+- **Permission Setup**: Configures service principal access
+
+### Interactive Discovery
+
+The command guides you through:
+
+1. Connect to your Databricks workspace
+2. Explore available catalogs and schemas
+3. Analyze table structures and relationships
+4. Identify visualization-friendly columns
+5. Generate curated questions
+6. Create and configure Genie spaces
+
+### Example Output
+
+For a schema with sales and HR tables:
+
+- **Sales Analytics Space**: Questions for revenue trends, product performance, regional breakdowns
+- **HR Analytics Space**: Questions for headcount, hiring velocity, turnover analysis
+
+---
+
 ## Uninstalling
 
-To remove the command:
+To remove all commands:
 
 ```bash
 rm ~/.claude/commands/dbapps.md
+rm ~/.claude/commands/dbtestrunner.md
+rm ~/.claude/commands/dbaiassistant.md
+rm ~/.claude/commands/dbgeniespaces.md
 rm ~/.claude/commands/deploy_to_databricks_template.py
 ```
 

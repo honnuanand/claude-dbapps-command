@@ -1,6 +1,11 @@
 #!/bin/bash
 #
-# Installation script for /dbapps and /dbtestrunner Claude Code slash commands
+# Installation script for Databricks Claude Code slash commands:
+#   - /dbapps - Create React + FastAPI apps with Databricks deployment
+#   - /dbtestrunner - Add in-app test runner framework
+#   - /dbaiassistant - Add Genie-powered AI assistant
+#   - /dbgeniespaces - Analyze schemas and create Genie spaces
+#
 # This script copies the command files to ~/.claude/commands/
 #
 
@@ -96,6 +101,20 @@ else
     echo -e "${YELLOW}⚠ Warning: dbtestrunner.md not found${NC}"
 fi
 
+if [ -f "$SCRIPT_DIR/commands/dbaiassistant.md" ]; then
+    cp "$SCRIPT_DIR/commands/dbaiassistant.md" "$COMMANDS_DIR/"
+    echo -e "${GREEN}✓ Installed dbaiassistant.md${NC}"
+else
+    echo -e "${YELLOW}⚠ Warning: dbaiassistant.md not found${NC}"
+fi
+
+if [ -f "$SCRIPT_DIR/commands/dbgeniespaces.md" ]; then
+    cp "$SCRIPT_DIR/commands/dbgeniespaces.md" "$COMMANDS_DIR/"
+    echo -e "${GREEN}✓ Installed dbgeniespaces.md${NC}"
+else
+    echo -e "${YELLOW}⚠ Warning: dbgeniespaces.md not found${NC}"
+fi
+
 echo -e "\n${GREEN}=============================================${NC}"
 echo -e "${GREEN}Installation complete!${NC}"
 echo -e "${GREEN}=============================================${NC}\n"
@@ -103,15 +122,21 @@ echo -e "${GREEN}=============================================${NC}\n"
 echo -e "${BLUE}The following commands are now available in Claude Code:${NC}\n"
 
 echo -e "${BLUE}Commands:${NC}"
-echo -e "  ${GREEN}/dbapps${NC}       - Create a React + FastAPI app with Databricks deployment"
-echo -e "  ${GREEN}/dbtestrunner${NC} - Add an in-app Test Runner framework to a Databricks App\n"
+echo -e "  ${GREEN}/dbapps${NC}        - Create a React + FastAPI app with Databricks deployment"
+echo -e "  ${GREEN}/dbtestrunner${NC}  - Add an in-app Test Runner framework to a Databricks App"
+echo -e "  ${GREEN}/dbaiassistant${NC} - Add a Genie-powered AI assistant to your Databricks App"
+echo -e "  ${GREEN}/dbgeniespaces${NC} - Analyze schemas and create comprehensive Genie spaces\n"
 
 echo -e "${BLUE}Usage:${NC}"
 echo -e "  1. Open Claude Code in any directory"
 echo -e "  2. Type: ${GREEN}/dbapps${NC} to create a new Databricks App"
-echo -e "  3. Type: ${GREEN}/dbtestrunner${NC} to add an in-app test runner\n"
+echo -e "  3. Type: ${GREEN}/dbtestrunner${NC} to add an in-app test runner"
+echo -e "  4. Type: ${GREEN}/dbaiassistant${NC} to add a Genie-powered AI assistant"
+echo -e "  5. Type: ${GREEN}/dbgeniespaces${NC} to analyze and create Genie spaces\n"
 
 echo -e "${BLUE}Files installed to:${NC}"
 echo -e "  $COMMANDS_DIR/dbapps.md"
 echo -e "  $COMMANDS_DIR/dbtestrunner.md"
+echo -e "  $COMMANDS_DIR/dbaiassistant.md"
+echo -e "  $COMMANDS_DIR/dbgeniespaces.md"
 echo -e "  $COMMANDS_DIR/deploy_to_databricks_template.py\n"
